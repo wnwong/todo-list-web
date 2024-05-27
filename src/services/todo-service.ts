@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export interface Duty {
+export interface Todo {
   id: number
   name: string
 }

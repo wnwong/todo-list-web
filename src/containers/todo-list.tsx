@@ -1,8 +1,8 @@
-import { Flex, Layout, List } from 'antd'
+import { CheckboxProps, Flex, Layout, List } from 'antd'
 import React, { useEffect, useMemo } from 'react'
-import { useDuty } from '../hooks/useDuty'
+import { useTodo } from '../hooks/useTodo'
 import Button from '../components/button'
-import DutyForm, { DutyFormValue } from './duty-form'
+import TodoForm, { TodoFormValue } from './todo-form'
 
 interface Props {
   modalhandler: (isOpen: boolean) => void
@@ -13,12 +13,12 @@ const buttonRowStyle: React.CSSProperties = {
   marginTop: '8px',
 }
 
-const DutyList: React.FC<Props> = ({ modalhandler, modalContentHandler }: Props) => {
-  const { data = [], refreshList, createDuty, updateDuty, removeDuty } = useDuty()
-  const dutyList = useMemo(
+const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler }: Props) => {
+  const { data = [], refreshList, createTodo, updateTodo, removeTodo } = useTodo()
+  const todoList = useMemo(
     () =>
-      data?.map((duty) => {
-        return { id: duty.id, name: duty.name }
+      data?.map((todo) => {
+        return { id: todo.id, name: todo.name }
       }),
     [data]
   )
@@ -27,34 +27,38 @@ const DutyList: React.FC<Props> = ({ modalhandler, modalContentHandler }: Props)
     refreshList()
   }, [])
 
-  const handleFormSubmitted = async (id: number, value: DutyFormValue) => {
-    await createDuty(value.itemName)
+  const handleFormSubmitted = async (id: number, value: TodoFormValue) => {
+    await createTodo(value.itemName)
     await refreshList()
     modalhandler(false)
   }
 
-  const handleFormEdited = async (id: number, value: DutyFormValue) => {
-    await updateDuty(id, value.itemName)
+  const handleFormEdited = async (id: number, value: TodoFormValue) => {
+    await updateTodo(id, value.itemName)
     await refreshList()
     modalhandler(false)
   }
 
   const handleCreateButtonClicked = () => {
-    modalContentHandler('Create New Duty', <DutyForm formSubmitHandler={handleFormSubmitted} />)
+    modalContentHandler('Create New Todo', <TodoForm formSubmitHandler={handleFormSubmitted} />)
     modalhandler(true)
   }
 
   const handleEditButtonClicked = (id: number, name: string) => {
     modalContentHandler(
-      'Edit Duty',
-      <DutyForm formSubmitHandler={handleFormEdited} itemId={id} initialValues={{ itemName: name }} />
+      'Edit Todo',
+      <TodoForm formSubmitHandler={handleFormEdited} itemId={id} initialValues={{ itemName: name }} />
     )
     modalhandler(true)
   }
 
   const handleDeleteButtonClicked = async (id: number) => {
-    await removeDuty(id)
+    await removeTodo(id)
     await refreshList()
+  }
+  const onCheckboxChanged: CheckboxProps['onChange'] = (e) => {
+    console.log(`checked = ${e.target}`)
+    console.log(e.target)
   }
 
   const renderCreateButton = () => {
@@ -63,6 +67,10 @@ const DutyList: React.FC<Props> = ({ modalhandler, modalContentHandler }: Props)
         create
       </Button>
     )
+  }
+
+  const renderListHeader = () => {
+    return <div>Item</div>
   }
 
   const renderEditButton = (id: number, name: string) => {
@@ -80,17 +88,18 @@ const DutyList: React.FC<Props> = ({ modalhandler, modalContentHandler }: Props)
       </Button>
     )
   }
+
   return (
     <Layout>
       <Flex style={buttonRowStyle} align="flex-end" vertical>
         {renderCreateButton()}
       </Flex>
       <List
+        header={renderListHeader()}
         itemLayout="horizontal"
-        dataSource={dutyList}
+        dataSource={todoList}
         renderItem={(item) => (
           <List.Item actions={[renderEditButton(item.id, item.name), renderDeleteButton(item.id)]}>
-            <List.Item style={{ textWrap: 'wrap', whiteSpace: 'normal' }} />
             {item.name}
           </List.Item>
         )}
@@ -99,4 +108,4 @@ const DutyList: React.FC<Props> = ({ modalhandler, modalContentHandler }: Props)
   )
 }
 
-export default DutyList
+export default TodoList

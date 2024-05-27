@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Duty, createTodoItem, getTodoList, removeTodoItem, updateTodoItem } from '../services/todo-service'
+import { Todo, createTodoItem, getTodoList, removeTodoItem, updateTodoItem } from '../services/todo-service'
 
-export const useDuty = () => {
-  const [data, setData] = useState<Duty[] | null>(null)
+export const useTodo = () => {
+  const [data, setData] = useState<Todo[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
@@ -18,7 +18,7 @@ export const useDuty = () => {
     }
   }
 
-  const createDuty = async (name: string) => {
+  const createTodo = async (name: string) => {
     setIsLoading(true)
     try {
       await createTodoItem(name)
@@ -29,7 +29,7 @@ export const useDuty = () => {
     }
   }
 
-  const updateDuty = async (id: number, name: string) => {
+  const updateTodo = async (id: number, name: string) => {
     setIsLoading(true)
     try {
       await updateTodoItem(id, name)
@@ -40,7 +40,7 @@ export const useDuty = () => {
     }
   }
 
-  const removeDuty = async (id: number) => {
+  const removeTodo = async (id: number) => {
     setIsLoading(true)
     try {
       await removeTodoItem(id)
@@ -50,5 +50,5 @@ export const useDuty = () => {
       setIsLoading(false)
     }
   }
-  return { data, isLoading, error, refreshList, createDuty, updateDuty, removeDuty }
+  return { data, isLoading, error, refreshList, createTodo, updateTodo, removeTodo }
 }

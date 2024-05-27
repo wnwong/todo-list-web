@@ -5,13 +5,5 @@ export const useModal = () => {
   const [modalTitle, setModalTitle] = useState<string>('')
   const [modalConetnt, setModalConetnt] = useState<React.ReactElement>()
 
-  const handleOk = () => {
-    setIsModalOpen(false)
-  }
-
-  const handleCancel = () => {
-    setIsModalOpen(false)
-  }
-
   return { isModalOpen, setIsModalOpen, modalConetnt, setModalConetnt, modalTitle, setModalTitle }
 }

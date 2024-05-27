@@ -6,12 +6,12 @@ interface SubmitButtonProps {
   form: FormInstance
 }
 
-export interface DutyFormValue {
+export interface TodoFormValue {
   itemName: string
 }
 
-interface DutyFormProps extends FormProps {
-  formSubmitHandler: (itemId: number, value: DutyFormValue) => void
+interface TodoFormProps extends FormProps {
+  formSubmitHandler: (itemId: number, value: TodoFormValue) => void
   itemId?: number
 }
 
@@ -35,14 +35,14 @@ const SubmitButton: React.FC<React.PropsWithChildren<SubmitButtonProps>> = ({ fo
   )
 }
 
-const DutyForm: React.FC<DutyFormProps> = ({ formSubmitHandler, itemId = -1, ...rest }: DutyFormProps) => {
+const TodoForm: React.FC<TodoFormProps> = ({ formSubmitHandler, itemId = -1, ...rest }: TodoFormProps) => {
   const [form] = Form.useForm()
 
-  const handleFormSubmitted = (value: DutyFormValue) => {
+  const handleFormSubmitted = (value: TodoFormValue) => {
     formSubmitHandler(itemId, value)
   }
   return (
-    <Form form={form} name="duty-form" layout="vertical" autoComplete="off" onFinish={handleFormSubmitted} {...rest}>
+    <Form form={form} name="todo-form" layout="vertical" autoComplete="off" onFinish={handleFormSubmitted} {...rest}>
       <Form.Item
         name="itemName"
         label="Item Name"
@@ -62,4 +62,4 @@ const DutyForm: React.FC<DutyFormProps> = ({ formSubmitHandler, itemId = -1, ...
   )
 }
 
-export default DutyForm
+export default TodoForm

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex, Layout, Modal } from 'antd'
-import DutyList from './containers/duty-list'
+import DutyList from './containers/todo-list'
 import { useModal } from './hooks/useModal'
 const { Header, Content } = Layout
 
@@ -22,6 +22,11 @@ const App: React.FC = () => {
     setModalConetnt(content)
   }
 
+  const handleModelCancelled = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    setIsModalOpen(false)
+  }
+
   return (
     <Flex justify="space-between" vertical style={{ height: '100vh' }}>
       <Layout>
@@ -29,7 +34,15 @@ const App: React.FC = () => {
         <Content style={{ padding: '0 48px' }}>
           <DutyList modalhandler={modalHandler} modalContentHandler={modalContentHandler} />
         </Content>
-        <Modal title={modalTitle} open={isModalOpen} footer={null} destroyOnClose centered mask>
+        <Modal
+          title={modalTitle}
+          open={isModalOpen}
+          footer={null}
+          destroyOnClose
+          centered
+          mask
+          onCancel={handleModelCancelled}
+        >
           {modalConetnt}
         </Modal>
       </Layout>
