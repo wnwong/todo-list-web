@@ -1,7 +1,8 @@
-import React from 'react'
 import { Flex, Layout, Modal } from 'antd'
-import DutyList from './containers/todo-list'
+import React from 'react'
+import TodoList from './containers/todo-list'
 import { useModal } from './hooks/useModal'
+import { APP } from './lib/constants'
 const { Header, Content } = Layout
 
 const headerStyle: React.CSSProperties = {
@@ -30,9 +31,9 @@ const App: React.FC = () => {
   return (
     <Flex justify="space-between" vertical style={{ height: '100vh' }}>
       <Layout>
-        <Header style={headerStyle}>Simple Todo List</Header>
+        <Header style={headerStyle}>{APP.header}</Header>
         <Content style={{ padding: '0 48px' }}>
-          <DutyList modalhandler={modalHandler} modalContentHandler={modalContentHandler} />
+          <TodoList modalhandler={modalHandler} modalContentHandler={modalContentHandler} />
         </Content>
         <Modal
           title={modalTitle}

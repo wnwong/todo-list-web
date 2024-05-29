@@ -1,7 +1,7 @@
-import { CheckboxProps, Flex, Layout, List } from 'antd'
+import { Flex, Layout, List } from 'antd'
 import React, { useEffect, useMemo } from 'react'
-import { useTodo } from '../hooks/useTodo'
 import Button from '../components/button'
+import { useTodo } from '../hooks/useTodo'
 import TodoForm, { TodoFormValue } from './todo-form'
 
 interface Props {
@@ -55,10 +55,6 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler }: Props)
   const handleDeleteButtonClicked = async (id: number) => {
     await removeTodo(id)
     await refreshList()
-  }
-  const onCheckboxChanged: CheckboxProps['onChange'] = (e) => {
-    console.log(`checked = ${e.target}`)
-    console.log(e.target)
   }
 
   const renderCreateButton = () => {
