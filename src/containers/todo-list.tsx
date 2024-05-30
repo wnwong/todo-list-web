@@ -71,7 +71,7 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
 
   const renderEditButton = (id: number, name: string) => {
     return (
-      <Button type="link" onClick={() => handleEditButtonClicked(id, name)}>
+      <Button type="link" onClick={() => handleEditButtonClicked(id, name)} data-testid={`edit-button-${id}`}>
         edit
       </Button>
     )
@@ -79,7 +79,7 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
 
   const renderDeleteButton = (id: number) => {
     return (
-      <Button type="link" danger onClick={() => handleDeleteButtonClicked(id)}>
+      <Button type="link" danger onClick={() => handleDeleteButtonClicked(id)} data-testid={`delete-button-${id}`}>
         delete
       </Button>
     )

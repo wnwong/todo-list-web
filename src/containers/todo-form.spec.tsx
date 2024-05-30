@@ -1,5 +1,5 @@
 import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
-import TodoForm, { TodoFormValue } from './todo-form'
+import TodoForm from './todo-form'
 
 describe('todo-form', () => {
   it('renders the form correctly', () => {
@@ -15,13 +15,11 @@ describe('todo-form', () => {
     const itemNameInput = screen.getByLabelText('Item Name')
     fireEvent.change(itemNameInput, { target: { value: 'Test Todo Item' } })
 
-    await act(async () => {
-      fireEvent.submit(screen.getByRole('form'))
-    })
+    fireEvent.submit(screen.getByRole('form'))
 
-    expect(mockFormSubmitHandler).toHaveBeenCalledWith(-1, {
-      itemName: 'Test Todo Item',
-    } as TodoFormValue)
+    await waitFor(() => {
+      expect(mockFormSubmitHandler).toHaveBeenCalledWith(-1, { itemName: 'Test Todo Item' })
+    })
   })
 
   it('disables the submit button when the form is invalid', async () => {
