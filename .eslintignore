@@ -1,0 +1,10 @@
+# Ignore build and coverage directories
+build/
+coverage/
+
+# Ignore node_modules directory
+node_modules/
+
+# Ignore certain files
+src/setupTests.ts
+src/reportWebVitals.ts
