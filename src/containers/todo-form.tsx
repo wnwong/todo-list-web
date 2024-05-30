@@ -42,7 +42,15 @@ const TodoForm: React.FC<TodoFormProps> = ({ formSubmitHandler, itemId = -1, ...
     formSubmitHandler(itemId, value)
   }
   return (
-    <Form form={form} name="todo-form" layout="vertical" autoComplete="off" onFinish={handleFormSubmitted} {...rest}>
+    <Form
+      role="form"
+      form={form}
+      name="todo-form"
+      layout="vertical"
+      autoComplete="off"
+      onFinish={handleFormSubmitted}
+      {...rest}
+    >
       <Form.Item
         name="itemName"
         label="Item Name"

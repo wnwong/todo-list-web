@@ -11,6 +11,10 @@ const headerStyle: React.CSSProperties = {
   color: 'white',
 }
 
+const contentStyle: React.CSSProperties = {
+  padding: '0 48px',
+}
+
 const App: React.FC = () => {
   const { isModalOpen, setIsModalOpen, modalConetnt, setModalConetnt, modalTitle, setModalTitle } = useModal()
 
@@ -31,9 +35,11 @@ const App: React.FC = () => {
   return (
     <Flex justify="space-between" vertical style={{ height: '100vh' }}>
       <Layout>
-        <Header style={headerStyle}>{APP.header}</Header>
-        <Content style={{ padding: '0 48px' }}>
-          <TodoList modalhandler={modalHandler} modalContentHandler={modalContentHandler} />
+        <Header data-testid="app-header" style={headerStyle}>
+          {APP.header}
+        </Header>
+        <Content style={contentStyle}>
+          <TodoList data-testid="todo-list" modalhandler={modalHandler} modalContentHandler={modalContentHandler} />
         </Content>
         <Modal
           title={modalTitle}

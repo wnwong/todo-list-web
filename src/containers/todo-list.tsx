@@ -13,7 +13,7 @@ const buttonRowStyle: React.CSSProperties = {
   marginTop: '8px',
 }
 
-const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler }: Props) => {
+const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest }: Props) => {
   const { data = [], refreshList, createTodo, updateTodo, removeTodo } = useTodo()
   const todoList = useMemo(
     () =>
@@ -99,6 +99,7 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler }: Props)
             {item.name}
           </List.Item>
         )}
+        {...rest}
       />
     </Layout>
   )
