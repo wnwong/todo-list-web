@@ -19,7 +19,8 @@ export interface GetTodoListResponse extends GenericApiResponse {
   }[]
 }
 
-const apiBaseUrl = 'http://localhost:3001/api/v1'
+const apiUrl = process.env.REACT_APP_API_URL
+const apiBaseUrl = `${apiUrl}/api/v1`
 const getTodoList = async () => {
   const {
     data: { data },

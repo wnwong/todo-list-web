@@ -16,7 +16,7 @@ const buttonRowStyle: React.CSSProperties = {
 }
 
 const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest }: Props) => {
-  const { data = [], refreshList, createTodo, updateTodo, removeTodo, isLoading, error } = useTodo()
+  const { data = [], refreshList, createTodo, updateTodo, removeTodo, isLoading } = useTodo()
   const { loading, loadingMessage, showLoading, hideLoading } = useLoading()
   const todoList = useMemo(
     () =>

@@ -139,7 +139,6 @@ describe('useTodo', () => {
 
     it('should handle error when removing existing todo item', async () => {
       const mockTodoId = 1
-      const newTodoName = 'New Todo'
       const mockError = new Error('Failed to update existing item')
 
       ;(removeTodoItem as jest.Mock).mockRejectedValue(mockError)
