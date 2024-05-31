@@ -29,6 +29,12 @@
     ]
   },
   "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/reportWebVitals.ts",
+      "!src/index.tsx"
+    ],
     "moduleNameMapper": {
       "^axios$": "axios/dist/node/axios.cjs"
     },
