@@ -1,7 +1,7 @@
 import { Flex, Layout, Modal } from 'antd'
 import React from 'react'
 import TodoList from './containers/todo-list'
-import { useModal } from './hooks/useModal'
+import useModal from './hooks/useModal'
 import { APP } from './lib/constants'
 const { Header, Content } = Layout
 
@@ -17,7 +17,6 @@ const contentStyle: React.CSSProperties = {
 
 const App: React.FC = () => {
   const { isModalOpen, setIsModalOpen, modalConetnt, setModalConetnt, modalTitle, setModalTitle } = useModal()
-
   const modalHandler = (isOpen: boolean) => {
     return setIsModalOpen(isOpen)
   }

@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import { useModal } from './useModal'
+import useModal from './useModal'
 describe('useModal', () => {
   it('should return initial value', () => {
     const { result } = renderHook(() => useModal())

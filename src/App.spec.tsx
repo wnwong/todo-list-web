@@ -1,10 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import App from './App'
-import { useModal } from './hooks/useModal'
+import useModal from './hooks/useModal'
 
-jest.mock('./hooks/useModal', () => ({
-  useModal: jest.fn(),
-}))
+jest.mock('./hooks/useModal')
 
 describe('App', () => {
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Todo, createTodoItem, getTodoList, removeTodoItem, updateTodoItem } from '../services/todo-service'
 
-export const useTodo = () => {
+const useTodo = () => {
   const [data, setData] = useState<Todo[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
@@ -52,3 +52,5 @@ export const useTodo = () => {
   }
   return { data, isLoading, error, refreshList, createTodo, updateTodo, removeTodo }
 }
+
+export default useTodo

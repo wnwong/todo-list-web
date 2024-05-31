@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import TodoList from './todo-list'
-import { useTodo } from '../hooks/useTodo'
+import useTodo from '../hooks/useTodo'
 
 jest.mock('../hooks/useTodo')
 

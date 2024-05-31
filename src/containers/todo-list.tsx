@@ -1,8 +1,10 @@
 import { Flex, Layout, List } from 'antd'
 import React, { useEffect, useMemo } from 'react'
 import Button from '../components/button'
-import { useTodo } from '../hooks/useTodo'
+import useTodo from '../hooks/useTodo'
 import TodoForm, { TodoFormValue } from './todo-form'
+import useLoading from '../hooks/useLoading'
+import Loading from '../components/loading'
 
 interface Props {
   modalhandler: (isOpen: boolean) => void
@@ -14,7 +16,8 @@ const buttonRowStyle: React.CSSProperties = {
 }
 
 const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest }: Props) => {
-  const { data = [], refreshList, createTodo, updateTodo, removeTodo } = useTodo()
+  const { data = [], refreshList, createTodo, updateTodo, removeTodo, isLoading } = useTodo()
+  const { loading, loadingMessage, showLoading, hideLoading } = useLoading()
   const todoList = useMemo(
     () =>
       data?.map((todo) => {
@@ -26,6 +29,14 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
   useEffect(() => {
     refreshList()
   }, [])
+
+  useEffect(() => {
+    if (isLoading) {
+      showLoading()
+    } else {
+      hideLoading()
+    }
+  }, [isLoading])
 
   const handleFormSubmitted = async (id: number, value: TodoFormValue) => {
     await createTodo(value.itemName)
@@ -101,6 +112,7 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
         )}
         {...rest}
       />
+      {loading && <Loading message={loadingMessage} />}
     </Layout>
   )
 }

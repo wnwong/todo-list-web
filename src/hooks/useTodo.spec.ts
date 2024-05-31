@@ -1,6 +1,6 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
 import { createTodoItem, getTodoList } from '../services/todo-service'
-import { useTodo } from './useTodo'
+import useTodo from './useTodo'
 
 jest.mock('../services/todo-service')
 
