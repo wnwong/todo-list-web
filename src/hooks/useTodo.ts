@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { Todo, createTodoItem, getTodoList, removeTodoItem, updateTodoItem } from '../services/todo-service'
+import {
+  Todo,
+  createTodoItem,
+  getTodoList,
+  completeTodoItem,
+  removeTodoItem,
+  updateTodoItem,
+} from '../services/todo-service'
 
 const useTodo = () => {
   const [data, setData] = useState<Todo[] | null>(null)
@@ -44,6 +51,17 @@ const useTodo = () => {
     }
   }
 
+  const completeTodo = async (id: number) => {
+    setIsLoading(true)
+    try {
+      await completeTodoItem(id)
+    } catch (error) {
+      setError(error as Error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const removeTodo = async (id: number) => {
     setIsLoading(true)
     try {
@@ -54,7 +72,7 @@ const useTodo = () => {
       setIsLoading(false)
     }
   }
-  return { data, isLoading, error, refreshList, createTodo, updateTodo, removeTodo, page, totalPages }
+  return { data, isLoading, error, refreshList, createTodo, updateTodo, completeTodo, removeTodo, page, totalPages }
 }
 
 export default useTodo

@@ -1,5 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
-import { createTodoItem, getTodoList, removeTodoItem, updateTodoItem } from '../services/todo-service'
+import { completeTodoItem, createTodoItem, getTodoList, removeTodoItem, updateTodoItem } from '../services/todo-service'
 import useTodo from './useTodo'
 
 jest.mock('../services/todo-service')
@@ -117,6 +117,43 @@ describe('useTodo', () => {
       await waitFor(() => expect(result.current.error).toEqual(mockError))
       expect(result.current.isLoading).toEqual(false)
       expect(updateTodoItem).toHaveBeenCalledWith(mockTodoId, newTodoName)
+    })
+  })
+
+  describe('completeTodo', () => {
+    it('should complete an existing item correctly', async () => {
+      const mockTodoId = 1
+      const newTodoName = 'New Todo'
+
+      ;(completeTodoItem as jest.Mock).mockResolvedValue(newTodoName)
+
+      const { result } = renderHook(() => useTodo())
+
+      await act(async () => {
+        await result.current.completeTodo(mockTodoId)
+      })
+
+      await waitFor(() => expect(result.current.isLoading).toEqual(false))
+      expect(result.current.error).toBeNull()
+      expect(completeTodoItem).toHaveBeenCalledWith(mockTodoId)
+    })
+
+    it('should handle error when completing existing todo item', async () => {
+      const mockTodoId = 1
+      const newTodoName = 'New Todo'
+      const mockError = new Error('Failed to update existing item')
+
+      ;(completeTodoItem as jest.Mock).mockRejectedValue(mockError)
+
+      const { result } = renderHook(() => useTodo())
+
+      await act(async () => {
+        await result.current.completeTodo(mockTodoId)
+      })
+
+      await waitFor(() => expect(result.current.error).toEqual(mockError))
+      expect(result.current.isLoading).toEqual(false)
+      expect(completeTodoItem).toHaveBeenCalledWith(mockTodoId)
     })
   })
 

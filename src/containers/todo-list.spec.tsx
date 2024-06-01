@@ -21,6 +21,7 @@ describe('todo-list', () => {
       data: mockTodoData,
       refreshList: jest.fn(),
       createTodo: jest.fn(),
+      completeTodo: jest.fn(),
       updateTodo: jest.fn(),
       removeTodo: jest.fn(),
       page: 1,
@@ -28,7 +29,7 @@ describe('todo-list', () => {
     })
   })
 
-  test('renders the list of todos', () => {
+  it('renders the list of todos', () => {
     render(<TodoList {...mockHandlers} />)
 
     mockTodoData.forEach((todo) => {
@@ -36,7 +37,7 @@ describe('todo-list', () => {
     })
   })
 
-  test('calls the create button handler', () => {
+  it('calls the create button handler', () => {
     render(<TodoList {...mockHandlers} />)
     fireEvent.click(screen.getByText('create'))
 
@@ -44,7 +45,7 @@ describe('todo-list', () => {
     expect(mockHandlers.modalhandler).toHaveBeenCalledWith(true)
   })
 
-  test('calls the edit button handler', () => {
+  it('calls the edit button handler', () => {
     render(<TodoList {...mockHandlers} />)
     fireEvent.click(screen.getByTestId(`edit-button-${1}`))
 
@@ -52,12 +53,25 @@ describe('todo-list', () => {
     expect(mockHandlers.modalhandler).toHaveBeenCalledWith(true)
   })
 
-  test('calls the delete button handler', async () => {
+  it('calls the removeTodo function when the "delete" button is clicked', async () => {
     render(<TodoList {...mockHandlers} />)
-    fireEvent.click(screen.getByTestId(`delete-button-${1}`))
+
+    fireEvent.click(screen.getByTestId('delete-button-1'))
+    fireEvent.click(screen.getByTestId('delete-confirm-1'))
 
     await waitFor(() => {
-      expect((useTodo as jest.Mock)().removeTodo).toHaveBeenCalledWith(1)
+      expect(useTodo().removeTodo).toHaveBeenCalledWith(1)
+    })
+  })
+
+  it('calls the completeTodo function when the "complete" button is clicked', async () => {
+    render(<TodoList {...mockHandlers} />)
+
+    fireEvent.click(screen.getByTestId('complete-button-1'))
+    fireEvent.click(screen.getByTestId('complete-confirm-1'))
+
+    await waitFor(() => {
+      expect(useTodo().completeTodo).toHaveBeenCalledWith(1)
     })
   })
 })

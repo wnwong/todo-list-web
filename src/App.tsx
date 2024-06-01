@@ -16,7 +16,7 @@ const contentStyle: React.CSSProperties = {
 }
 
 const containerStyle: React.CSSProperties = {
-  height: '100vh',
+  minHeight: '100vh',
 }
 const App: React.FC = () => {
   const { isModalOpen, setIsModalOpen, modalConetnt, setModalConetnt, modalTitle, setModalTitle } = useModal()

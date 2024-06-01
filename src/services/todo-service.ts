@@ -41,11 +41,15 @@ const createTodoItem = (name: string) => {
 }
 
 const updateTodoItem = (id: number, name: string) => {
-  return axios.put<GenericApiResponse>(`${apiBaseUrl}/todos/${id}`, { name })
+  return axios.patch<GenericApiResponse>(`${apiBaseUrl}/todos/${id}/name`, { name })
+}
+
+const completeTodoItem = (id: number) => {
+  return axios.patch<GenericApiResponse>(`${apiBaseUrl}/todos/${id}/completed`, { completed: true })
 }
 
 const removeTodoItem = (id: number) => {
   return axios.delete<GetTodoListResponse>(`${apiBaseUrl}/todos/${id}`)
 }
 
-export { getTodoList, createTodoItem, updateTodoItem, removeTodoItem }
+export { getTodoList, createTodoItem, completeTodoItem, updateTodoItem, removeTodoItem }

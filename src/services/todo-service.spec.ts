@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { createTodoItem, getTodoList, removeTodoItem, updateTodoItem } from './todo-service'
+import { completeTodoItem, createTodoItem, getTodoList, removeTodoItem, updateTodoItem } from './todo-service'
 
 jest.mock('axios')
 describe('todo-service', () => {
@@ -67,12 +67,12 @@ describe('todo-service', () => {
         status: 'success',
       }
 
-      ;(axios.put as jest.Mock).mockResolvedValueOnce({ data: mockResponse })
+      ;(axios.patch as jest.Mock).mockResolvedValueOnce({ data: mockResponse })
 
       await updateTodoItem(mockId, mockName)
 
       // Assert
-      expect(axios.put).toHaveBeenCalledTimes(1)
+      expect(axios.patch).toHaveBeenCalledTimes(1)
     })
 
     it('should throw an error if the API call fails', async () => {
@@ -80,10 +80,38 @@ describe('todo-service', () => {
       const mockId = 1
       const mockError = new Error('Failed to create todo item')
 
-      ;(axios.put as jest.Mock).mockRejectedValueOnce(mockError)
+      ;(axios.patch as jest.Mock).mockRejectedValueOnce(mockError)
 
       await expect(updateTodoItem(mockId, mockName)).rejects.toThrow(mockError)
-      expect(axios.put).toHaveBeenCalledTimes(1)
+      expect(axios.patch).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('completeTodoItem', () => {
+    it('should complet an existing todo item', async () => {
+      const mockName = 'New Todo Item'
+      const mockId = 1
+      const mockResponse = {
+        status: 'success',
+      }
+
+      ;(axios.patch as jest.Mock).mockResolvedValueOnce({ data: mockResponse })
+
+      await completeTodoItem(mockId)
+
+      // Assert
+      expect(axios.patch).toHaveBeenCalledTimes(1)
+    })
+
+    it('should throw an error if the API call fails', async () => {
+      const mockName = 'New Todo Item'
+      const mockId = 1
+      const mockError = new Error('Failed to create todo item')
+
+      ;(axios.patch as jest.Mock).mockRejectedValueOnce(mockError)
+
+      await expect(updateTodoItem(mockId, mockName)).rejects.toThrow(mockError)
+      expect(axios.patch).toHaveBeenCalledTimes(1)
     })
   })
 

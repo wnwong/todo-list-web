@@ -1,10 +1,12 @@
-import { Flex, Layout, List } from 'antd'
+import { Flex, Layout, List, Popconfirm } from 'antd'
 import React, { useEffect, useMemo } from 'react'
 import Button from '../components/button'
+import { CheckCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import useTodo from '../hooks/useTodo'
 import TodoForm, { TodoFormValue } from './todo-form'
 import useLoading from '../hooks/useLoading'
 import Loading from '../components/loading'
+import { Typography } from 'antd'
 
 interface Props {
   modalhandler: (isOpen: boolean) => void
@@ -19,9 +21,19 @@ const listItemStyle: React.CSSProperties = {
   flexWrap: 'nowrap',
   wordBreak: 'break-all',
 }
-
+const { Title } = Typography
 const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest }: Props) => {
-  const { data = [], refreshList, createTodo, updateTodo, removeTodo, isLoading, page, totalPages } = useTodo()
+  const {
+    data = [],
+    refreshList,
+    createTodo,
+    updateTodo,
+    completeTodo,
+    removeTodo,
+    isLoading,
+    page,
+    totalPages,
+  } = useTodo()
   const { loading, loadingMessage, showLoading, hideLoading } = useLoading()
 
   const todoList = useMemo(
@@ -74,6 +86,11 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
     await refreshList()
   }
 
+  const handleCompleteButtonClicked = async (id: number) => {
+    await completeTodo(id)
+    await refreshList()
+  }
+
   const renderCreateButton = () => {
     return (
       <Button type="primary" onClick={() => handleCreateButtonClicked()}>
@@ -83,12 +100,18 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
   }
 
   const renderListHeader = () => {
-    return <div>Item</div>
+    return <Title level={3}>Todo Items</Title>
   }
 
   const renderEditButton = (id: number, name: string) => {
     return (
-      <Button type="link" onClick={() => handleEditButtonClicked(id, name)} data-testid={`edit-button-${id}`}>
+      <Button
+        type="link"
+        shape="circle"
+        icon={<EditOutlined />}
+        onClick={() => handleEditButtonClicked(id, name)}
+        data-testid={`edit-button-${id}`}
+      >
         edit
       </Button>
     )
@@ -96,9 +119,43 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
 
   const renderDeleteButton = (id: number) => {
     return (
-      <Button type="link" danger onClick={() => handleDeleteButtonClicked(id)} data-testid={`delete-button-${id}`}>
-        delete
-      </Button>
+      <Popconfirm
+        title="Are you sure you want to delete this todo item?"
+        onConfirm={() => handleDeleteButtonClicked(id)}
+        okText="Yes"
+        cancelText="No"
+        okButtonProps={{ 'data-testid': `delete-confirm-${id}` }}
+        cancelButtonProps={{ 'data-testid': `delete-cancel-${id}` }}
+      >
+        <Button
+          type="link"
+          danger
+          shape="circle"
+          icon={<DeleteOutlined />}
+          data-testid={`delete-button-${id}`}
+        ></Button>
+      </Popconfirm>
+    )
+  }
+
+  const renderCompleteButton = (id: number) => {
+    return (
+      <Popconfirm
+        title="Are you sure you want to complete this todo item?"
+        onConfirm={() => handleCompleteButtonClicked(id)}
+        okText="Yes"
+        cancelText="No"
+        okButtonProps={{ 'data-testid': `complete-confirm-${id}` }}
+        cancelButtonProps={{ 'data-testid': `complete-cancel-${id}` }}
+      >
+        <Button
+          type="link"
+          success
+          shape="circle"
+          icon={<CheckCircleOutlined />}
+          data-testid={`complete-button-${id}`}
+        ></Button>
+      </Popconfirm>
     )
   }
 
@@ -119,7 +176,7 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
         renderItem={(item) => (
           <List.Item
             style={listItemStyle}
-            actions={[renderEditButton(item.id, item.name), renderDeleteButton(item.id)]}
+            actions={[renderEditButton(item.id, item.name), renderCompleteButton(item.id), renderDeleteButton(item.id)]}
           >
             {item.name}
           </List.Item>
