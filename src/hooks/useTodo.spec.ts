@@ -16,7 +16,7 @@ describe('useTodo', () => {
         { id: 2, name: 'Todo 2' },
       ]
 
-      ;(getTodoList as jest.Mock).mockResolvedValue(mockTodoList)
+      ;(getTodoList as jest.Mock).mockResolvedValue({ data: mockTodoList, totalPage: 1 })
 
       const { result } = renderHook(() => useTodo())
 

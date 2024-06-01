@@ -14,9 +14,6 @@ export interface GetTodoListResponse extends GenericApiResponse {
     todoList: {
       id: number
       name: string
-      completed: boolean
-      createdAt: Date
-      updatedAt: Date
     }[]
     totalPages: number
   }

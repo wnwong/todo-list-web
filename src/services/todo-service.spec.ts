@@ -15,19 +15,20 @@ describe('todo-service', () => {
         return {
           data: {
             status: 'success',
-            data: [
-              {
-                id: itemId,
-                name: itemName,
-                createdAt: '2024-05-30T01:15:30.560Z',
-                updatedAt: '2024-05-30T01:15:30.560Z',
-              },
-            ],
+            data: {
+              todoList: [
+                {
+                  id: itemId,
+                  name: itemName,
+                },
+              ],
+              totalPages: 1,
+            },
           },
         }
       })
       const result = await getTodoList(1)
-      expect(result).toEqual([{ id: itemId, name: itemName }])
+      expect(result).toEqual({ data: [{ id: itemId, name: itemName }], totalPages: 1 })
     })
   })
 

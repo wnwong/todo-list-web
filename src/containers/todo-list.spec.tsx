@@ -23,6 +23,8 @@ describe('todo-list', () => {
       createTodo: jest.fn(),
       updateTodo: jest.fn(),
       removeTodo: jest.fn(),
+      page: 1,
+      totalPages: 1,
     })
   })
 
