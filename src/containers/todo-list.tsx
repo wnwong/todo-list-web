@@ -15,6 +15,11 @@ const buttonRowStyle: React.CSSProperties = {
   marginTop: '8px',
 }
 
+const listItemStyle: React.CSSProperties = {
+  flexWrap: 'nowrap',
+  wordBreak: 'break-all',
+}
+
 const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest }: Props) => {
   const { data = [], refreshList, createTodo, updateTodo, removeTodo, isLoading, page, totalPages } = useTodo()
   const { loading, loadingMessage, showLoading, hideLoading } = useLoading()
@@ -112,7 +117,10 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
         itemLayout="horizontal"
         dataSource={todoList}
         renderItem={(item) => (
-          <List.Item actions={[renderEditButton(item.id, item.name), renderDeleteButton(item.id)]}>
+          <List.Item
+            style={listItemStyle}
+            actions={[renderEditButton(item.id, item.name), renderDeleteButton(item.id)]}
+          >
             {item.name}
           </List.Item>
         )}

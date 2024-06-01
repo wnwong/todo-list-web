@@ -15,6 +15,9 @@ const contentStyle: React.CSSProperties = {
   padding: '0 48px',
 }
 
+const containerStyle: React.CSSProperties = {
+  height: '100vh',
+}
 const App: React.FC = () => {
   const { isModalOpen, setIsModalOpen, modalConetnt, setModalConetnt, modalTitle, setModalTitle } = useModal()
   const modalHandler = (isOpen: boolean) => {
@@ -32,7 +35,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <Flex justify="space-between" vertical style={{ height: '100vh' }}>
+    <Flex justify="center" vertical style={containerStyle}>
       <Layout>
         <Header data-testid="app-header" style={headerStyle}>
           {APP.header}
