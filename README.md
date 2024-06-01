@@ -44,6 +44,11 @@ or
 npm run test:coverage
 ```
 
+## Screenshots
+
+Please refer to the
+[screenshots](https://github.com/wnwong/todo-list-web/tree/main/screenshots) folder
+
 ## Key Dependencies
 
 - [react](https://github.com/facebook/react)
