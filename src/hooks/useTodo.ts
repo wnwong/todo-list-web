@@ -5,12 +5,16 @@ const useTodo = () => {
   const [data, setData] = useState<Todo[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
-  const refreshList = async () => {
+  const refreshList = async (currentPage: number = 1) => {
     setIsLoading(true)
     try {
-      const todoList = await getTodoList()
-      setData(todoList)
+      const { data, totalPages } = await getTodoList(currentPage)
+      setData(data)
+      setPage(currentPage)
+      setTotalPages(totalPages)
     } catch (error) {
       setError(error as Error)
     } finally {
@@ -50,7 +54,7 @@ const useTodo = () => {
       setIsLoading(false)
     }
   }
-  return { data, isLoading, error, refreshList, createTodo, updateTodo, removeTodo }
+  return { data, isLoading, error, refreshList, createTodo, updateTodo, removeTodo, page, totalPages }
 }
 
 export default useTodo

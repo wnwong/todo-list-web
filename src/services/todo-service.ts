@@ -11,23 +11,32 @@ export interface GenericApiResponse {
 
 export interface GetTodoListResponse extends GenericApiResponse {
   data: {
-    id: number
-    name: string
-    completed: boolean
-    createdAt: Date
-    updatedAt: Date
-  }[]
+    todoList: {
+      id: number
+      name: string
+      completed: boolean
+      createdAt: Date
+      updatedAt: Date
+    }[]
+    totalPages: number
+  }
 }
 
 const apiUrl = process.env.REACT_APP_API_URL
 const apiBaseUrl = `${apiUrl}/api/v1`
-const getTodoList = async () => {
+const getTodoList = async (currentPage: number) => {
   const {
-    data: { data },
-  } = await axios.get<GetTodoListResponse>(`${apiBaseUrl}/todos`)
-  return data.map((todo) => {
+    data: {
+      data: { todoList, totalPages },
+    },
+  } = await axios.get<GetTodoListResponse>(`${apiBaseUrl}/todos?page=${currentPage}&limit=10`)
+  const list = todoList.map((todo) => {
     return { id: todo.id, name: todo.name }
   })
+  return {
+    data: list,
+    totalPages,
+  }
 }
 
 const createTodoItem = (name: string) => {

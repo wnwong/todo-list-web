@@ -26,7 +26,7 @@ describe('todo-service', () => {
           },
         }
       })
-      const result = await getTodoList()
+      const result = await getTodoList(1)
       expect(result).toEqual([{ id: itemId, name: itemName }])
     })
   })

@@ -16,8 +16,9 @@ const buttonRowStyle: React.CSSProperties = {
 }
 
 const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest }: Props) => {
-  const { data = [], refreshList, createTodo, updateTodo, removeTodo, isLoading } = useTodo()
+  const { data = [], refreshList, createTodo, updateTodo, removeTodo, isLoading, page, totalPages } = useTodo()
   const { loading, loadingMessage, showLoading, hideLoading } = useLoading()
+
   const todoList = useMemo(
     () =>
       data?.map((todo) => {
@@ -96,12 +97,17 @@ const TodoList: React.FC<Props> = ({ modalhandler, modalContentHandler, ...rest 
     )
   }
 
+  const handlePageChange = (currentPage: number) => {
+    refreshList(currentPage)
+  }
+
   return (
     <Layout>
       <Flex style={buttonRowStyle} align="flex-end" vertical>
         {renderCreateButton()}
       </Flex>
       <List
+        pagination={{ current: page, total: totalPages * 10, pageSize: 10, onChange: handlePageChange }}
         header={renderListHeader()}
         itemLayout="horizontal"
         dataSource={todoList}
