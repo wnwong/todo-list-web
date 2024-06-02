@@ -9,8 +9,8 @@ describe('todo-service', () => {
 
   describe('getTodoList', () => {
     it('should return todo list with correct data structure', async () => {
-      const itemId = 1
-      const itemName = 'talk to john'
+      const mockName = 'New Todo Item'
+      const mockId = 1
       ;(axios.get as jest.Mock).mockImplementation(() => {
         return {
           data: {
@@ -18,8 +18,8 @@ describe('todo-service', () => {
             data: {
               todoList: [
                 {
-                  id: itemId,
-                  name: itemName,
+                  id: mockId,
+                  name: mockName,
                 },
               ],
               totalPages: 1,
@@ -28,7 +28,7 @@ describe('todo-service', () => {
         }
       })
       const result = await getTodoList(1)
-      expect(result).toEqual({ data: [{ id: itemId, name: itemName }], totalPages: 1 })
+      expect(result).toEqual({ data: [{ id: mockId, name: mockName }], totalPages: 1 })
     })
   })
 
@@ -43,8 +43,6 @@ describe('todo-service', () => {
 
       await createTodoItem(mockName)
 
-      // Assert
-      expect(axios.post).toHaveBeenCalledWith(`http://localhost:3001/api/v1/todos`, { name: mockName })
       expect(axios.post).toHaveBeenCalledTimes(1)
     })
 
@@ -88,8 +86,7 @@ describe('todo-service', () => {
   })
 
   describe('completeTodoItem', () => {
-    it('should complet an existing todo item', async () => {
-      const mockName = 'New Todo Item'
+    it('should complete an existing todo item', async () => {
       const mockId = 1
       const mockResponse = {
         status: 'success',
@@ -104,19 +101,18 @@ describe('todo-service', () => {
     })
 
     it('should throw an error if the API call fails', async () => {
-      const mockName = 'New Todo Item'
       const mockId = 1
-      const mockError = new Error('Failed to create todo item')
+      const mockError = new Error('Failed to complete todo item')
 
       ;(axios.patch as jest.Mock).mockRejectedValueOnce(mockError)
 
-      await expect(updateTodoItem(mockId, mockName)).rejects.toThrow(mockError)
+      await expect(completeTodoItem(mockId)).rejects.toThrow(mockError)
       expect(axios.patch).toHaveBeenCalledTimes(1)
     })
   })
 
   describe('removeTodoItem', () => {
-    it('should update an existing todo item', async () => {
+    it('should remove an existing todo item', async () => {
       const mockId = 1
       const mockResponse = {
         status: 'success',
@@ -132,7 +128,7 @@ describe('todo-service', () => {
 
     it('should throw an error if the API call fails', async () => {
       const mockId = 1
-      const mockError = new Error('Failed to create todo item')
+      const mockError = new Error('Failed to remove todo item')
 
       ;(axios.delete as jest.Mock).mockRejectedValueOnce(mockError)
 

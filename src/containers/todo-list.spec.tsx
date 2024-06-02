@@ -37,7 +37,7 @@ describe('todo-list', () => {
     })
   })
 
-  it('calls the create button handler', () => {
+  it('open the create todo modal when "create" button is clicked', () => {
     render(<TodoList {...mockHandlers} />)
     fireEvent.click(screen.getByText('create'))
 
@@ -45,9 +45,9 @@ describe('todo-list', () => {
     expect(mockHandlers.modalhandler).toHaveBeenCalledWith(true)
   })
 
-  it('calls the edit button handler', () => {
+  it('open the edit todo modal when "edit" button is clicked', () => {
     render(<TodoList {...mockHandlers} />)
-    fireEvent.click(screen.getByTestId(`edit-button-${1}`))
+    fireEvent.click(screen.getByTestId(`edit-button-1`))
 
     expect(mockHandlers.modalContentHandler).toHaveBeenCalledWith('Edit Todo', expect.anything())
     expect(mockHandlers.modalhandler).toHaveBeenCalledWith(true)
